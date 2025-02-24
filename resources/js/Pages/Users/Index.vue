@@ -57,6 +57,9 @@ let props = defineProps({
 let search = ref(props.filters.search);
 
 watch(search, debounce(function (value) {
-  Inertia.get('/users', { search: value }, { preserveState: true, replace: true });
+  Inertia.get('/users', { search: value }, { 
+    preserveState: true,  // 不删除当前页面的状态
+    replace: true         // 防止浏览器回退按钮难用, 搜索使用替换, 而不是一直插入历史记录
+  });
 }, 300));
 </script>

@@ -13,10 +13,12 @@ class UsersController extends Controller
     {
         return Inertia::render('Users/Index', [
             'users' => User::query()
+                // 当有search参数时, 才模糊查询
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('name', 'like', "%{$search}%");
                 })
                 ->paginate(10)
+                // 分页返回的link带有查询参数
                 ->withQueryString()
                 ->through(fn($user) => [
                     'id' => $user->id,
